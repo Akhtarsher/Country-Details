@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Search country</title>
+</head>
+<style>
+    body {
+        background-color: rgb(62 62 62);
+        color: rgb(175 175 175);
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100px;
+        border: 1px solid gray;
+        background-color: rgb(45 51 57);
+    }
+
+    .input {
+        width: 70%;
+        background-color: rgb(45 51 57);
+
+    }
+
+    .icon {
+        color: white;
+    }
+
+    #second>h4 {
+        padding-bottom:  20px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col input-group mt-5">
+                <input type="text" class="form-control bg-secondary " placeholder="Enter the Country Name"
+                    id="inputCountry">
+                <button type="submit" class="btn  " id="Button" onclick="search()"><i
+                        class="fa-solid fa-magnifying-glass icon"></i></button>
+            </div>
+        </div>
+        <div class="row mt-5 ">
+            <div class="col-md-6" id="first">
+                <img src="" alt="" id="image">
+
+            </div>
+            <div class="col-md-6 px-5" id="second">
+                <h4 id="countryName"></h4>
+                <h4 id="capital"></h4>
+                <h4 id="area"></h4>
+                <h4 id="continent"></h4>
+                <h4 id="population"></h4>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        function search() {
+            const apiKey = 'c2990a0e5bc6b4cd6e1bbf07b3ccb70b';
+            let country = document.getElementById("inputCountry").value;
+            let image = document.getElementById('image');
+            let countryName = document.getElementById('countryName');
+            let capital = document.getElementById('capital');
+           let area=document.getElementById('area')
+            let continent = document.getElementById('continent');
+            let population = document.getElementById('population');
+            let borders = document.getElementById('borders');
+            
+
+
+            const apiUrl = `https://restcountries.com/v3.1/name/${country}`;
+
+            axios.get(apiUrl)
+                .then(response => {
+                    // console.log(response.data); // Log the response data to check if it's retrieved successfully
+
+                    let [thedata] = response.data
+                    // handle success
+                    console.log(thedata);
+                    image.src = `${thedata.flags.png}`
+                    countryName.textContent = `The country Name is: ${thedata.name.common}`;
+                    capital.textContent = `The capital of ${thedata.name.common} is ${thedata.capital}`
+                   area.textContent=`The total area is ${thedata.area}`
+                    continent.textContent = `It is located in: ${thedata.continents}`
+                    population.textContent = `Population of ${thedata.name.common} is ${thedata.population}`
+                    borders.textContent = `The borders of ${thedata.name.common} are ${thedata.borders}`
+                   
+
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .finally(function () {
+                    // always executed
+                });
+        }
+
+
+    </script>
+
+</body>
+
+</html>
